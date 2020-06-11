@@ -310,7 +310,7 @@ public class LoginForm extends javax.swing.JFrame {
             
             if(txtUser.getText().isEmpty() ||txtPass.getText().isEmpty() )
             {
-                JOptionPane.showMessageDialog(null, "Username or Password blank");
+                JOptionPane.showMessageDialog(null, "Fields cannot be empty");
             }
             else 
             {
