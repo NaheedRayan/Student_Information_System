@@ -5,7 +5,9 @@
 
 ## Introduction
    ```
-   The student information system can handle all the information about student . For this all the student must signup to create an account . By signing up its account will be        recorded to the SQL server . If a student already have an account he can just simply login into the account and can get every students information who have an account from the    server.
+   The student information system can handle all the information about student . For this all the student must signup to create an account . 
+   By signing up its account will be recorded to the SQL server . If a student already have an account he can just simply login into the account 
+   and can get every students information who have an account from the server.
    This is the basic idea of this project.
    ```
 <img src="https://github.com/NaheedRayan/Readme-Images/blob/master/StudentInformationSystem/Localhost1.jpg?raw=true" width="300" height="400" title="Github Logo">
