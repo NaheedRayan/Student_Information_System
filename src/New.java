@@ -64,6 +64,10 @@ public class New extends javax.swing.JFrame {
     }
 
     public void show_user() {
+
+        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+        tableModel.setRowCount(0);
+
         ArrayList<User> list = userList();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         //model.fireTableDataChanged();
@@ -133,7 +137,6 @@ public class New extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         update_button = new javax.swing.JButton();
-        add_button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -416,21 +419,6 @@ public class New extends javax.swing.JFrame {
             }
         });
 
-        add_button.setBackground(new java.awt.Color(30, 139, 195));
-        add_button.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        add_button.setText("Add");
-        add_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        add_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                add_buttonActionPerformed(evt);
-            }
-        });
-        add_button.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                add_buttonKeyPressed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -480,15 +468,13 @@ public class New extends javax.swing.JFrame {
                                 .addComponent(txtUser9, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(132, 132, 132)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txtUser10, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtUser10, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(263, 263, 263)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
@@ -565,8 +551,7 @@ public class New extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(update_button)
-                    .addComponent(jButtonCancel)
-                    .addComponent(add_button))
+                    .addComponent(jButtonCancel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -663,6 +648,8 @@ public class New extends javax.swing.JFrame {
 //                txtUser9.setEditable(false);
                 txtUser10.setEditable(false);
 
+                show_user();
+
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid Data");
             }
@@ -729,51 +716,81 @@ public class New extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             String str = txtUser.getText();
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/javacontactsapp", "root", "");
-            PreparedStatement st = con.prepareStatement("select * from user where username=? or fname= ? or lname= ?  or email = ? or mobile_no = ? or ID_no = ?");
-            st.setString(1, str);
-            st.setString(2, str);
-            st.setString(3, str);
-            st.setString(4, str);
-            st.setString(5, str);
-            st.setString(6, str);
-            //Excuting Query  
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                String s = rs.getString("username");
-                String s1 = rs.getString("fname");
-                String s2 = rs.getString("lname");
-                String s3 = rs.getString("Department");
-                String s4 = rs.getString("ID_no");
-                String s5 = rs.getString("Department_Batch");
-                String s6 = rs.getString("email");
-                String s7 = rs.getString("mobile_no");
-                String s8 = rs.getString("address");
-                String s9 = rs.getString("blood_group");
 
-                //Sets Records in TextFields.  
-                txtUser1.setText(s);
-                txtUser2.setText(s1);
-                txtUser3.setText(s2);
-                txtUser4.setText(s3);
-                txtUser5.setText(s4);
-                txtUser6.setText(s5);
-                txtUser7.setText(s6);
-                txtUser8.setText(s7);
-                txtUser9.setText(s8);
-                txtUser10.setText(s9);
+            if (str.length() > 0) {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost/javacontactsapp", "root", "");
+                PreparedStatement st = con.prepareStatement("select * from user where username=? or fname= ? or lname= ?  or email = ? or mobile_no = ? or ID_no = ?");
+                st.setString(1, str);
+                st.setString(2, str);
+                st.setString(3, str);
+                st.setString(4, str);
+                st.setString(5, str);
+                st.setString(6, str);
+                //Excuting Query  
+                ResultSet rs = st.executeQuery();
+                if (rs.next()) {
+                    String s = rs.getString("username");
+                    String s1 = rs.getString("fname");
+                    String s2 = rs.getString("lname");
+                    String s3 = rs.getString("Department");
+                    String s4 = rs.getString("ID_no");
+                    String s5 = rs.getString("Department_Batch");
+                    String s6 = rs.getString("email");
+                    String s7 = rs.getString("mobile_no");
+                    String s8 = rs.getString("address");
+                    String s9 = rs.getString("blood_group");
+
+                    //Sets Records in TextFields.  
+                    txtUser1.setText(s);
+                    txtUser2.setText(s1);
+                    txtUser3.setText(s2);
+                    txtUser4.setText(s3);
+                    txtUser5.setText(s4);
+                    txtUser6.setText(s5);
+                    txtUser7.setText(s6);
+                    txtUser8.setText(s7);
+                    txtUser9.setText(s8);
+                    txtUser10.setText(s9);
 
 //                txtUser1.setEditable(false);
 //                txtUser2.setEditable(false);
 //                txtUser3.setEditable(false);
-                txtUser4.setEditable(false);
-                txtUser5.setEditable(false);
-                txtUser6.setEditable(false);
+                    txtUser4.setEditable(false);
+                    txtUser5.setEditable(false);
+                    txtUser6.setEditable(false);
 //                txtUser7.setEditable(false);
 //                txtUser8.setEditable(false);
 //                txtUser9.setEditable(false);
-                txtUser10.setEditable(false);
+                    txtUser10.setEditable(false);
+
+                    show_user();
+
+                } else {
+                    //Sets Records in TextFields.  
+                    txtUser1.setText("");
+                    txtUser2.setText("");
+                    txtUser3.setText("");
+                    txtUser4.setText("");
+                    txtUser5.setText("");
+                    txtUser6.setText("");
+                    txtUser7.setText("");
+                    txtUser8.setText("");
+                    txtUser9.setText("");
+                    txtUser10.setText("");
+
+//                txtUser1.setEditable(false);
+//                txtUser2.setEditable(false);
+//                txtUser3.setEditable(false);
+                    txtUser4.setEditable(false);
+                    txtUser5.setEditable(false);
+                    txtUser6.setEditable(false);
+//                txtUser7.setEditable(false);
+//                txtUser8.setEditable(false);
+//                txtUser9.setEditable(false);
+                    txtUser10.setEditable(false);
+
+                }
 
             }
             //Create Exception Handler  
@@ -788,59 +805,47 @@ public class New extends javax.swing.JFrame {
 
     private void update_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_buttonActionPerformed
         // TODO add your handling code here:
-        try{
-             String username = txtUser1.getText();
-             String firstname = txtUser2.getText();
-             String lastname = txtUser3.getText();
-             String dept = txtUser4.getText();
-             String id = txtUser5.getText();
-             String batch = txtUser6.getText();
-             String email = txtUser7.getText();
-             String mobile_no = txtUser8.getText();
-             String address = txtUser9.getText();
-             String blood_group = txtUser10.getText();
-             
-             String str = txtUser.getText();
-             
-             
-            
-             
+        try {
+            String username = txtUser1.getText();
+            String firstname = txtUser2.getText();
+            String lastname = txtUser3.getText();
+            String dept = txtUser4.getText();
+            String id = txtUser5.getText();
+            String batch = txtUser6.getText();
+            String email = txtUser7.getText();
+            String mobile_no = txtUser8.getText();
+            String address = txtUser9.getText();
+            String blood_group = txtUser10.getText();
+
+            String str = txtUser.getText();
+
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/javacontactsapp", "root", "");
             PreparedStatement st = con.prepareStatement("UPDATE user SET username=?,fname= ?,lname= ?,email = ?,mobile_no = ?,address=? WHERE ID_no = ?");
-            
-    
+
             st.setString(1, username);
             st.setString(2, firstname);
             st.setString(3, lastname);
             st.setString(4, email);
             st.setString(5, mobile_no);
             st.setString(6, address);
-            st.setString(7, str);
-            
-            
+            st.setString(7, id);
+
             System.out.println("1");
             st.executeUpdate();
+
+            show_user();
+
             JOptionPane.showMessageDialog(null, "Info Updated");
-            
-            
-        }
-        catch(Exception ex){
-            
+
+        } catch (Exception ex) {
+
         }
     }//GEN-LAST:event_update_buttonActionPerformed
 
     private void update_buttonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_buttonKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_update_buttonKeyPressed
-
-    private void add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_add_buttonActionPerformed
-
-    private void add_buttonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_add_buttonKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_add_buttonKeyPressed
 
     /**
      * @param args the command line arguments
@@ -878,7 +883,6 @@ public class New extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton add_button;
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonLogin;
     private javax.swing.JLabel jLabel1;
