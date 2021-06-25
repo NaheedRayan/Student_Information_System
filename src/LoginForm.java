@@ -144,6 +144,11 @@ public class LoginForm extends javax.swing.JFrame {
         txtPass.setBackground(new java.awt.Color(108, 122, 137));
         txtPass.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         txtPass.setForeground(new java.awt.Color(253, 227, 167));
+        txtPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPassActionPerformed(evt);
+            }
+        });
 
         jCheckBoxShowPass.setBackground(new java.awt.Color(108, 122, 137));
         jCheckBoxShowPass.setForeground(new java.awt.Color(253, 227, 167));
@@ -374,6 +379,10 @@ public class LoginForm extends javax.swing.JFrame {
     private void jButtonLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonLoginKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonLoginKeyPressed
+
+    private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPassActionPerformed
 
     /**
      * @param args the command line arguments

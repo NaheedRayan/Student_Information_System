@@ -564,9 +564,8 @@ public class New extends javax.swing.JFrame {
                     .addComponent(jScrollPane1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(update_button)
-                        .addComponent(jButtonCancel))
+                    .addComponent(update_button)
+                    .addComponent(jButtonCancel)
                     .addComponent(add_button))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
@@ -653,15 +652,15 @@ public class New extends javax.swing.JFrame {
                 txtUser9.setText(s8);
                 txtUser10.setText(s9);
 
-                txtUser1.setEditable(false);
-                txtUser2.setEditable(false);
-                txtUser3.setEditable(false);
+//                txtUser1.setEditable(false);
+//                txtUser2.setEditable(false);
+//                txtUser3.setEditable(false);
                 txtUser4.setEditable(false);
                 txtUser5.setEditable(false);
                 txtUser6.setEditable(false);
-                txtUser7.setEditable(false);
-                txtUser8.setEditable(false);
-                txtUser9.setEditable(false);
+//                txtUser7.setEditable(false);
+//                txtUser8.setEditable(false);
+//                txtUser9.setEditable(false);
                 txtUser10.setEditable(false);
 
             } else {
@@ -765,15 +764,15 @@ public class New extends javax.swing.JFrame {
                 txtUser9.setText(s8);
                 txtUser10.setText(s9);
 
-                txtUser1.setEditable(false);
-                txtUser2.setEditable(false);
-                txtUser3.setEditable(false);
+//                txtUser1.setEditable(false);
+//                txtUser2.setEditable(false);
+//                txtUser3.setEditable(false);
                 txtUser4.setEditable(false);
                 txtUser5.setEditable(false);
                 txtUser6.setEditable(false);
-                txtUser7.setEditable(false);
-                txtUser8.setEditable(false);
-                txtUser9.setEditable(false);
+//                txtUser7.setEditable(false);
+//                txtUser8.setEditable(false);
+//                txtUser9.setEditable(false);
                 txtUser10.setEditable(false);
 
             }
@@ -789,6 +788,46 @@ public class New extends javax.swing.JFrame {
 
     private void update_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_buttonActionPerformed
         // TODO add your handling code here:
+        try{
+             String username = txtUser1.getText();
+             String firstname = txtUser2.getText();
+             String lastname = txtUser3.getText();
+             String dept = txtUser4.getText();
+             String id = txtUser5.getText();
+             String batch = txtUser6.getText();
+             String email = txtUser7.getText();
+             String mobile_no = txtUser8.getText();
+             String address = txtUser9.getText();
+             String blood_group = txtUser10.getText();
+             
+             String str = txtUser.getText();
+             
+             
+            
+             
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/javacontactsapp", "root", "");
+            PreparedStatement st = con.prepareStatement("UPDATE user SET username=?,fname= ?,lname= ?,email = ?,mobile_no = ?,address=? WHERE ID_no = ?");
+            
+    
+            st.setString(1, username);
+            st.setString(2, firstname);
+            st.setString(3, lastname);
+            st.setString(4, email);
+            st.setString(5, mobile_no);
+            st.setString(6, address);
+            st.setString(7, str);
+            
+            
+            System.out.println("1");
+            st.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Info Updated");
+            
+            
+        }
+        catch(Exception ex){
+            
+        }
     }//GEN-LAST:event_update_buttonActionPerformed
 
     private void update_buttonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_buttonKeyPressed
